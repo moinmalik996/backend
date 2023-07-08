@@ -7,4 +7,4 @@ class AdSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Ad
-        fields = '__all__'
+        fields = ['id', 'name', 'created_at', 'updated_at']

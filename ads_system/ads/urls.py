@@ -1,14 +1,17 @@
 from django.urls import path, include
 from rest_framework import routers
 
-from .api import AdViewSet, LocationViewSet, AdsLocationViewset
+from .api import AdViewSet, LocationViewSet, AdsLocationViewset, RunningAdsViewSet
 
-router = routers.DefaultRouter()
+base_router = routers.DefaultRouter()
+runningads_router = routers.DefaultRouter()
 
-router.register('ad', AdViewSet, basename='ad-api')
-router.register('location', LocationViewSet, basename='location-api')
-router.register('adslocation', AdsLocationViewset, basename='adslocation-api')
+base_router.register('ad', AdViewSet, basename='ad-api')
+base_router.register('location', LocationViewSet, basename='location-api')
+base_router.register('adslocation', AdsLocationViewset, basename='adslocation-api')
+runningads_router.register('running-ads', RunningAdsViewSet, basename='running-ads-api')
 
 urlpatterns = [
-    path('', include(router.urls)),
+    path('', include(base_router.urls)),
+    path('location/<int:id>/', include(runningads_router.urls))
 ]

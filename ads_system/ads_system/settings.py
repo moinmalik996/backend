@@ -112,6 +112,12 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+# RestFramework
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,
+}
+
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
@@ -133,3 +139,8 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# Celery Configuration
+CELERY_BROKER_URL = Env.get('CELERY_BROKER_URL')
+CELERY_RESULT_BACKEND = Env.get('CELERY_RESULT_BACKEND')
