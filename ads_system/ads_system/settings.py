@@ -80,17 +80,27 @@ WSGI_APPLICATION = 'ads_system.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
+USE_SQLITE = Env.get('USE_SQLITE')
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': Env.get("DB_NAME"),
-        'USER': Env.get("DB_USER"),
-        'PASSWORD': Env.get("DB_PASSWORD"),
-        'HOST': Env.get("DB_HOST"),
-        'PORT': Env.get("DB_PORT"),
+if USE_SQLITE in ['False', False]:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': Env.get("DB_NAME"),
+            'USER': Env.get("DB_USER"),
+            'PASSWORD': Env.get("DB_PASSWORD"),
+            'HOST': Env.get("DB_HOST"),
+            'PORT': Env.get("DB_PORT"),
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': 'ads_database', # This is where you put the name of the db file. 
+                    # If one doesn't exist, it will be created at migration time.
+        }
+    }
 
 
 # Password validation
