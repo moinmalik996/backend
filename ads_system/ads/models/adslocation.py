@@ -6,7 +6,7 @@ from django.dispatch import receiver
 from .ad import Ad
 from .location import Location
 
-from ..tasks import schedule_task_after_24_hours, calculate
+from ..tasks import schedule_task_after_24_hours
 
 
 class AdsLocationManager(models.Manager):
@@ -39,5 +39,5 @@ class AdsLocation(models.Model):
 
 @receiver(post_save, sender=AdsLocation)
 def my_sceduale_task(sender, instance, created, **kwargs):
-    calculate.delay(10, 20)
+    schedule_task_after_24_hours.delay(instance.id)
     

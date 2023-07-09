@@ -1,29 +1,85 @@
-# README #
+# Ads System
 
-This README would normally document whatever steps are necessary to get your application up and running.
+Ads management based on locations/regions.
 
-### What is this repository for? ###
+## Models
+Resides in models package in ads app (ads_system/ads/models/*)
+* Ad 
+* Location
+* AdsLocation
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+Ad and Location have m2m relation through an intermediate model AdsLocation. 
+AdsLocation is the main model which act as a running ad with its data like date expiry, max visits etc.
 
-### How do I get set up? ###
+## APIs / Views
+Resides in api package in ads app(ads_system/ads/api/*)
+* AdViewSet: Api for Ad
+* LocationViewSet: Api for Location
+* AdsLocationViewset: Api for AdsLocation
+* RunningAdsViewSet: Api for running Ads filtered by location
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+## Urls
+These are just api endpoints.
 
-### Contribution guidelines ###
+### Ads
+Get all ads (content) or Post a new one
 
-* Writing tests
-* Code review
-* Other guidelines
+```http
+  GET, POST /api/ad/
+```
 
-### Who do I talk to? ###
+Get Single item
 
-* Repo owner or admin
-* Other community or team contact
+```http
+  GET, DELETE, UPDATE /api/ad/${id}
+
+  
+### Locations
+Get all location (content) or Post a new one
+
+```http
+  GET, POST /api/location/
+```
+
+Get Single item
+
+```http
+  GET, DELETE, UPDATE /api/location/${id}
+```
+
+### AdsLocations
+ Get all actual ads that were created and started for a particular location till now or Post a new one
+
+```http
+  GET, POST /api/adslocation/
+```
+
+Get Single item
+
+```http
+  GET, DELETE, UPDATE /api/adslocation/${id}
+```
+> **_NOTE:_**  Update will only update the visits data field with the data coming from request.
+
+
+
+### RunningAds
+ Get all running ads based on particular location
+
+```http
+  GET /api/adslocation/
+```
+
+Get Single item
+
+```http
+  GET /api/adslocation/${id}
+```
+
+
+## Background Task
+
+Each time an adslocation is created, a celery task will be created through post_save signal which will run after 24 hours for that particular ad and set its no. of visits to 0.
+
+ads_system/ads/tasks.py
+

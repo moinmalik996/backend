@@ -1,11 +1,9 @@
 from rest_framework import viewsets
-from django.http import HttpResponse
 
 from ..serialiazers import AdsLocationSerializer
 from ..models import Location
 from .mixins import AuthPermissionMixin
 
-from ..tasks import calculate
 
 class RunningAdsViewSet(AuthPermissionMixin, viewsets.ReadOnlyModelViewSet):
 
@@ -18,9 +16,4 @@ class RunningAdsViewSet(AuthPermissionMixin, viewsets.ReadOnlyModelViewSet):
                            .filter(date_expired=False, max_reached=False)
         return queryset
         
-def abc(request):
-    print('####### ABC ############')
-    a = calculate.delay()
-    b = a.get()
-    return HttpResponse(b)
 
