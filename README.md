@@ -32,7 +32,7 @@ Get Single item
 
 ```http
   GET, DELETE, UPDATE /api/ad/${id}
-
+````
   
 ### Locations
 Get all location (content) or Post a new one
