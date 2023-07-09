@@ -1,8 +1,12 @@
 from django.db import models
 from django.db.models import Case, When, Value, F
 from django.utils import timezone
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from .ad import Ad
 from .location import Location
+
+from ..tasks import schedule_task_after_24_hours, calculate
 
 
 class AdsLocationManager(models.Manager):
@@ -31,3 +35,9 @@ class AdsLocation(models.Model):
         return f"{self.location.name}-{self.ad.name}"
     
     objects = AdsLocationManager()
+
+
+@receiver(post_save, sender=AdsLocation)
+def my_sceduale_task(sender, instance, created, **kwargs):
+    calculate.delay(10, 20)
+    
