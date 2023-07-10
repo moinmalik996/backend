@@ -29,7 +29,7 @@ class AdsLocation(models.Model):
     ad = models.ForeignKey(Ad, on_delete=models.PROTECT, related_name='ads')
     location = models.ForeignKey(Location, on_delete=models.PROTECT, related_name='ads')
     start_date = models.DateTimeField(auto_now_add=True)
-    end_date = models.DateTimeField(null=True)
+    end_date = models.DateTimeField()
 
     def __str__(self) -> str:
         return f"{self.location.name}-{self.ad.name}"
