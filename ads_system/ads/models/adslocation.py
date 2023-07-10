@@ -24,8 +24,8 @@ class AdsLocationManager(models.Manager):
         )
 
 class AdsLocation(models.Model):
-    max_visits = models.IntegerField(default=1)
-    visits = models.IntegerField(default=0)
+    max_visits = models.PositiveIntegerField(default=1)
+    visits = models.PositiveIntegerField(default=0)
     ad = models.ForeignKey(Ad, on_delete=models.PROTECT, related_name='ads')
     location = models.ForeignKey(Location, on_delete=models.PROTECT, related_name='ads')
     start_date = models.DateTimeField(auto_now_add=True)
