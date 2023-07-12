@@ -3,9 +3,7 @@ from django.db.models import F
 from django.utils import timezone
 from rest_framework import serializers
 
-from ..models import AdsLocation, Ad, Location
-from .ad import AdSerializer
-from .location import LocationSerializer
+from ..models import AdsLocation
 
 class AdsLocationSerializer(serializers.ModelSerializer):
 
